@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Neighborhood</title>
+
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        height: 100%;
+      }
+    </style>
+
+</head>
+<body>
+    <div id="map"></div>
+    <script>
+      var map;
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 41.893768, lng: 12.482266},
+          zoom: 16
+        });
+      }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyChA6cG5irJkvVGpHVXTBNtCbFACToY6kk&callback=initMap"
+    async defer></script>
+
+    <script src="http://knockoutjs.com/downloads/knockout-3.4.0.js"></script>
+    <!--<script src="js/app.js"></script>-->
+</body>
+</html>
