@@ -100,6 +100,7 @@ function getWikipediaInfo(element_id, search_word) {
 var Marker = function(data) {
     this.position = ko.observable(data.position);
     this.title = ko.observable(data.title);
+    this.shouldShow = ko.observable(true);
 };
 
 var ViewModel = function() {
@@ -113,6 +114,10 @@ var ViewModel = function() {
 
     this.bounce = function() {
         toggleBounce(selfie); //todo: not working, "selfie" is not Google marker
+    }
+
+    this.doFiltering = function() {
+        this.shouldShow = ko.observable(false); //todo: this is not working either
     }
 };
 

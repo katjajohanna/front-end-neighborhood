@@ -29,8 +29,10 @@
 <body>
     <div id="map"></div>
     <div id="list">
+        <input id="filter_value" type="text" placeholder="Filter markers">
+        <button id="filter" data-bind="click: doFiltering">Filter</button>
         <ul data-bind="foreach: markerList">
-            <li data-bind="text: title, click: $parent.bounce"></li>
+            <li data-bind="visible: shouldShow, text: title, click: $parent.bounce"></li>
         </ul>
     </div>
 
