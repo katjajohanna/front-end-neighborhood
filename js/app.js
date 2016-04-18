@@ -66,7 +66,6 @@ function initMap() {
             getWikipediaInfo(marker_data.id, marker_data.search_word);
         });
 
-        console.log("Setting google marker");
         marker_data.googleMarker = newMarker;
     });
 }
@@ -106,6 +105,7 @@ function getWikipediaInfo(element_id, search_word) {
 var Marker = function(data) {
     this.position = ko.observable(data.position);
     this.title = ko.observable(data.title);
+    this.search_word = ko.observable(data.search_word);
     this.googleMarker = data.googleMarker;
     this.shouldShow = ko.observable(true);
 };
@@ -115,7 +115,6 @@ var ViewModel = function() {
 
     this.markerList = ko.observableArray([]);
 
-    console.log("creating marker list");
     markers.forEach(function(marker_data) {
         selfie.markerList.push(new Marker(marker_data));
     });
@@ -125,7 +124,17 @@ var ViewModel = function() {
     }
 
     this.doFiltering = function() {
-        this.shouldShow = ko.observable(false); //todo: this is not working either
+        var search = $("#filter_value").val();
+
+        selfie.markerList().forEach(function(marker) {
+            var markerSearchWord = marker.search_word().toLowerCase();
+            var userSearchWord = search.toLowerCase();
+            if (markerSearchWord.indexOf(userSearchWord) > -1 || search == "") {
+                marker.shouldShow(true);
+            } else {
+                marker.shouldShow(false);
+            }
+        });
     }
 };
 
