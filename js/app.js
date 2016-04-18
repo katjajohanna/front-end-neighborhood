@@ -129,10 +129,13 @@ var ViewModel = function() {
         selfie.markerList().forEach(function(marker) {
             var markerSearchWord = marker.search_word().toLowerCase();
             var userSearchWord = search.toLowerCase();
+
             if (markerSearchWord.indexOf(userSearchWord) > -1 || search == "") {
                 marker.shouldShow(true);
+                marker.googleMarker.setMap(map);
             } else {
                 marker.shouldShow(false);
+                marker.googleMarker.setMap(null);
             }
         });
     }
