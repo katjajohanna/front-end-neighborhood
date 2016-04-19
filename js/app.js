@@ -68,6 +68,8 @@ function initMap() {
 
         marker_data.googleMarker = newMarker;
     });
+
+    ko.applyBindings(new ViewModel());
 }
 
 function toggleBounce(marker) {
@@ -133,7 +135,7 @@ var ViewModel = function() {
 
     this.bounce = function() {
         toggleBounce(this.googleMarker);
-    }
+    };
 
     this.doFiltering = function() {
         var search = $("#filter_value").val();
@@ -150,8 +152,5 @@ var ViewModel = function() {
                 marker.googleMarker.setMap(null);
             }
         });
-    }
+    };
 };
-
-initMap();
-ko.applyBindings(new ViewModel());
