@@ -43,6 +43,12 @@ var markers = [
     },
 ];
 
+function googleError()
+{
+    var mapdiv = $("#map");
+    mapdiv.append("Error fetching Google Map");
+}
+
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 41.8946146, lng: 12.4823304},
