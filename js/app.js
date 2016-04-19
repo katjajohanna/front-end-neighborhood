@@ -88,17 +88,29 @@ function getWikipediaInfo(element_id, search_word) {
 
     $.ajax({
         url: wikipediaUrl,
-        dataType: "jsonp",
-        success: function(data) {
-            for (var i = 0; i < data[2].length; i++) {
-                var url = data[3][i];
-                var text = data[2][i];
+        dataType: "jsonp"
+    }).done(function(data) {
+        var textAppended = false;
 
-                wikiElem.append('<li><a href="'+url+'">'+text+'</a></li>');
+        for (var i = 0; i < data[2].length; i++) {
+            var url = data[3][i];
+            var text = data[2][i];
+
+            if (text.length > 0) {
+                //See target=_blank security problem at https://mathiasbynens.github.io/rel-noopener/
+                //Thus, rel=noopener
+                wikiElem.append('<li><a href="'+url+'" target="_blank" rel="noopener">'+text+'</a></li>');
+                textAppended = true;
             }
-
-            clearTimeout(wikiRequestTimeout);
         }
+
+        if (!textAppended) {
+            wikiElem.append("Error fetching data from Wikipedia");
+        } else {
+            wikiElem.append("Data provided by Wikipedia");
+        }
+
+        clearTimeout(wikiRequestTimeout);
     });
 }
 
