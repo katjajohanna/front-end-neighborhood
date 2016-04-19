@@ -162,7 +162,7 @@ var ViewModel = function() {
             var markerSearchWord = marker.search_word().toLowerCase();
             var userSearchWord = search.toLowerCase();
 
-            if (markerSearchWord.indexOf(userSearchWord) > -1 || search == "") {
+            if (markerSearchWord.indexOf(userSearchWord) > -1 || search === "") {
                 marker.shouldShow(true);
                 marker.googleMarker.setMap(map);
             } else {
