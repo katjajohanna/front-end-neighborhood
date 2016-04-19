@@ -6,35 +6,40 @@ var markers = [
         "position": {lat: 41.894894, lng: 12.471262},
         "title": "This is where I lived, nice apartment",
         "search_word": "Piazza Farnese",
-        "googleMarker": null
+        "googleMarker": null,
+        "infoWindow": null
     },
     {
         "id": "marker2",
         "position": {lat: 41.895754, lng: 12.482556},
         "title": "Piazza Venezia, amazing palace",
         "search_word": "Piazza Venezia",
-        "googleMarker": null
+        "googleMarker": null,
+        "infoWindow": null
     },
     {
         "id": "marker3",
         "position": {lat: 41.898560, lng: 12.476902},
         "title": "Pantheon, a church",
         "search_word": "Pantheon",
-        "googleMarker": null
+        "googleMarker": null,
+        "infoWindow": null
     },
     {
         "id": "marker4",
         "position": {lat: 41.890206, lng: 12.492244},
         "title": "Colosseum, fighting arena",
         "search_word": "Colosseum",
-        "googleMarker": null
+        "googleMarker": null,
+        "infoWindow": null
     },
     {
         "id": "marker5",
         "position": {lat: 41.890621, lng: 12.477717},
         "title": "Island in the middle of the river Tiber",
         "search_word": "Isola Tiberina",
-        "googleMarker": null
+        "googleMarker": null,
+        "infoWindow": null
     },
 ];
 
@@ -52,24 +57,26 @@ function initMap() {
             animation: google.maps.Animation.DROP,
         });
 
-        var infowindow = new google.maps.InfoWindow({
+        marker_data.googleMarker = newMarker;
+        marker_data.infoWindow = new google.maps.InfoWindow({
             content: "<div id=" + marker_data.id + "></div>"
         });
 
         newMarker.addListener('click', function() {
             toggleBounce(newMarker);
-        });
-        newMarker.addListener('click', function() {
-            infowindow.open(map, newMarker);
-        });
-        newMarker.addListener('click', function() {
-            getWikipediaInfo(marker_data.id, marker_data.search_word);
+            openInfo(marker_data);
         });
 
-        marker_data.googleMarker = newMarker;
     });
 
     ko.applyBindings(new ViewModel());
+}
+
+function openInfo(marker)
+{
+    marker.infoWindow.open(map, marker.googleMarker);
+
+    getWikipediaInfo(marker.id, marker.search_word);
 }
 
 function toggleBounce(marker) {
@@ -117,10 +124,13 @@ function getWikipediaInfo(element_id, search_word) {
 }
 
 var Marker = function(data) {
+    this.data = data;
+    this.id = ko.observable(data.id);
     this.position = ko.observable(data.position);
     this.title = ko.observable(data.title);
     this.search_word = ko.observable(data.search_word);
     this.googleMarker = data.googleMarker;
+    this.infoWindow = data.infoWindow;
     this.shouldShow = ko.observable(true);
 };
 
@@ -133,8 +143,10 @@ var ViewModel = function() {
         selfie.markerList.push(new Marker(marker_data));
     });
 
-    this.bounce = function() {
+    this.animateMarker = function() {
         toggleBounce(this.googleMarker);
+        //openInfo(this.googleMarker, this.id(), this.search_word());
+        openInfo(this.data);
     };
 
     this.doFiltering = function() {
